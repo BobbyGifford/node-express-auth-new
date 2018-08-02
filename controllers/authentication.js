@@ -2,7 +2,7 @@ const User = require("../models/user");
 const jwt = require("jwt-simple");
 const devKeys = require("../config/dev");
 
-function token(user) {
+function tokenGen(user) {
   // sub mean subject
   // iat is issued at time
   const timestamp = new Date().getTime();
@@ -10,7 +10,7 @@ function token(user) {
 }
 
 exports.signin = function(req, res, next) {
-  res.json({ token: token(req.user) });
+  res.send({ token: tokenGen(req.user) });
   console.log(req.user);
 };
 
@@ -41,7 +41,7 @@ exports.signup = function(req, res, next) {
       if (err) {
         return next(err);
       }
-      res.json({ token: token(user) });
+      res.json({ token: tokenGen(user) });
     });
   });
 };
